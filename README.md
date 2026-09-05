@@ -14,7 +14,7 @@
 <br>
 
 <p align="center">
-<img alt="projeto Link-Box" src=".github/preview.jpg" width="100%">
+<img alt="projeto Site-Romance" src=".github/preview.png" width="100%">
  </p>
 
 ## 🚀 Tecnologias
