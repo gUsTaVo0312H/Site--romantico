@@ -303,7 +303,7 @@ btnDoor.addEventListener('click', () => {
 
   if (doorClickCount >= 3) {
     doorClickCount = 0;
-    showToast('Que mulher inteligente que isso... tente segurar o botao de verificar visita amor!👀❤️');
+    showToast('Muie inteligente que isso, tente segurar o botão de verificar amor!👀❤️');
   }
 });
 
