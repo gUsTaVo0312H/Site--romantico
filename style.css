@@ -633,6 +633,21 @@ body.bg-bad     { background: var(--grad-bad); }
 }
 .title-special { color: var(--color-rose-soft); }
 
+/* ─── 18. Cartão quase lá ───────────────────────────────────────── */
+.card-almost {
+  border-color: rgba(233, 199, 204, 0.32);
+  box-shadow:
+    0 0 0 1px rgba(233, 199, 204, 0.08),
+    0 8px 40px rgba(0,0,0,0.6),
+    0 0 64px rgba(180, 117, 126, 0.2);
+}
+.badge-almost {
+  background: rgba(233, 199, 204, 0.12);
+  border: 1px solid rgba(233, 199, 204, 0.3);
+  color: var(--color-rose-soft);
+}
+.title-almost { color: var(--color-rose-soft); }
+
 @keyframes card-glow-pulse {
   0%, 100% {
     box-shadow:

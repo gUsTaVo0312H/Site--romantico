@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   Sistema de Visitas do Gustavo — script.js
+   Sistema de Visitas — script.js
   Lógica de estados · animações · segredos
    ═══════════════════════════════════════════════════════════════ */
 
@@ -19,6 +19,7 @@ const SECTION_IDS = [
   'section-verification',
   'section-loading',
   'section-result-special',
+  'section-result-almost',
   'section-result-bad',
   'section-result-unknown',
 ];
@@ -75,14 +76,20 @@ function showSection(id) {
 }
 
 /**
- * Classifica o campo de texto do usuário em um dos três resultados.
+ * Classifica o campo de texto do usuário em um dos quatro resultados.
  * @param {string} raw - Texto bruto do campo de texto
- * @returns {'special'|'bad'|'unknown'}
+ * @returns {'special'|'almost'|'bad'|'unknown'}
  */
 function classify(raw) {
-  const normalized = raw.toLowerCase().trim().replace(/\s+/g, ' ');
+  const normalized = raw
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim()
+    .replace(/\s+/g, ' ');
   if (/lala\s+linda/.test(normalized)) return 'special';
-  if (normalized.includes('ruim'))     return 'bad';
+  if (/^(lala|lavinia)$/.test(normalized)) return 'almost';
+  if (/\bvisita\s+chata\b/.test(normalized)) return 'bad';
   return 'unknown';
 }
 
@@ -181,8 +188,12 @@ function showTooltip() {
 /* ─── Sequência de carregamento ──────────────────────────────────── */
 
 let loadingTimers = [];
+let isLoading = false;
 
 function startLoading(inputValue) {
+  if (isLoading) return;
+  isLoading = true;
+
   // Cancela timers anteriores (segurança)
   loadingTimers.forEach(clearTimeout);
   loadingTimers = [];
@@ -216,11 +227,19 @@ function startLoading(inputValue) {
 /* ─── Mostrar resultado ──────────────────────────────────────────── */
 
 function showResult(result) {
+  isLoading = false;
+
   switch (result) {
     case 'special':
       setBackground('special');
       spawnFloatingHearts();
       showSection('section-result-special');
+      break;
+
+    case 'almost':
+      setBackground('default');
+      clearFloatingHearts();
+      showSection('section-result-almost');
       break;
 
     case 'bad':
@@ -245,6 +264,7 @@ function showResult(result) {
 /* ─── Reset ──────────────────────────────────────────────────────── */
 
 function resetToVerify() {
+  isLoading = false;
   setBackground('default');
   clearFloatingHearts();
   inputName.value = '';
@@ -264,31 +284,41 @@ btnDoor.addEventListener('click', () => {
   doorClickCount++;
 
   if (doorClickResetTimer) clearTimeout(doorClickResetTimer);
-  doorClickResetTimer = setTimeout(() => { doorClickCount = 0; }, 1800);
+  doorClickResetTimer = setTimeout(() => { doorClickCount = 0; }, 2500);
 
-  if (doorClickCount >= 5) {
+  if (doorClickCount >= 3) {
     doorClickCount = 0;
-    showToast('Você encontrou um segredo. 👀❤️');
+    showToast('Que mulher inteligente que isso... tente segurar o botao de verificar visita amor!👀❤️');
   }
 });
 
 /* ─── Segredo #2 — Segurar o botão Verificar ────────────────────── */
 
 let holdTimer = null;
+let holdTriggered = false;
 
 function onBtnDown() {
-  holdTimer = setTimeout(showTooltip, 2600);
+  holdTriggered = false;
+  if (holdTimer) clearTimeout(holdTimer);
+  holdTimer = setTimeout(() => {
+    holdTriggered = true;
+    showTooltip();
+  }, 1200);
 }
 function onBtnUp() {
   if (holdTimer) { clearTimeout(holdTimer); holdTimer = null; }
 }
 
-btnVerify.addEventListener('mousedown',  onBtnDown);
-btnVerify.addEventListener('mouseup',    onBtnUp);
-btnVerify.addEventListener('mouseleave', onBtnUp);
-btnVerify.addEventListener('touchstart', onBtnDown, { passive: true });
-btnVerify.addEventListener('touchend',   onBtnUp);
-btnVerify.addEventListener('touchcancel',onBtnUp);
+btnVerify.addEventListener('pointerdown', onBtnDown);
+btnVerify.addEventListener('pointerup', onBtnUp);
+btnVerify.addEventListener('pointercancel', onBtnUp);
+btnVerify.addEventListener('pointerleave', onBtnUp);
+btnVerify.addEventListener('keydown', (event) => {
+  if (event.key === ' ' || event.key === 'Enter') onBtnDown();
+});
+btnVerify.addEventListener('keyup', (event) => {
+  if (event.key === ' ' || event.key === 'Enter') onBtnUp();
+});
 
 /* ─── Interações da seção principal ──────────────────────────────── */
 
@@ -314,6 +344,10 @@ inputName.addEventListener('keydown', (e) => {
 /* ─── Botão Verificar ────────────────────────────────────────────── */
 
 btnVerify.addEventListener('click', () => {
+  if (holdTriggered) {
+    holdTriggered = false;
+    return;
+  }
   if (!btnVerify.disabled) {
     startLoading(inputName.value);
   }
