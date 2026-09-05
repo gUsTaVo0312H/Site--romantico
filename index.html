@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema de Visitas do Gustavo</title>
+  <meta name="description" content="Sistema oficial de controle de visitas. Nem todo mundo é bem-vindo por aqui..." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Poppins:wght@300;400;500;600&family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── Background layers ────────────────────────────────── -->
+  <div id="particles-layer" aria-hidden="true"></div>
+
+  <div class="halo halo-1" aria-hidden="true"></div>
+  <div class="halo halo-2" aria-hidden="true"></div>
+  <div class="halo halo-special" id="halo-special" aria-hidden="true"></div>
+
+  <div id="hearts-layer" aria-hidden="true"></div>
+
+  <!-- ── Toast (easter egg #1) ────────────────────────────── -->
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-hidden="true">
+    Você encontrou um segredo. 👀❤️
+  </div>
+
+  <!-- ── Main ─────────────────────────────────────────────── -->
+  <main id="app">
+
+    <!-- ════ HERO ════ -->
+    <section id="section-hero" class="section section-hero" aria-label="Página inicial">
+      <div class="hero-content">
+
+        <button
+          id="btn-door"
+          class="hero-door-btn"
+          aria-label="Porta — clique várias vezes para descobrir um segredo"
+        >🚪</button>
+
+        <div class="deco-hearts" aria-hidden="true">
+          <span class="deco-heart" style="animation-delay:0s">❤️</span>
+          <span class="deco-heart" style="animation-delay:0.45s">💕</span>
+          <span class="deco-heart" style="animation-delay:0.9s">✨</span>
+          <span class="deco-heart" style="animation-delay:1.35s">💫</span>
+          <span class="deco-heart" style="animation-delay:1.8s">❤️</span>
+        </div>
+
+        <h1 class="hero-title">Sistema de Visitas</h1>
+        <p class="hero-subtitle">Nem todo mundo é bem-vindo por aqui...</p>
+        <p class="hero-tertiary">Mas talvez você seja uma exceção. 👀❤️</p>
+
+        <button class="btn-primary" id="btn-discover">Descobrir →</button>
+      </div>
+    </section>
+
+    <!-- ════ VERIFICAÇÃO ════ -->
+    <section id="section-verification" class="section" aria-label="Verificação de visita" hidden>
+      <div class="card-glass" id="card-verify">
+        <h2 class="card-title">Quem está tentando entrar?</h2>
+        <p class="card-subtitle">Digite o nome da visita para descobrir o destino dela...</p>
+
+        <div class="input-wrapper">
+          <input
+            id="input-name"
+            class="text-input"
+            type="text"
+            placeholder="Digite aqui..."
+            aria-label="Nome da visita"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <span class="input-icon" aria-hidden="true">🔑</span>
+        </div>
+
+        <div class="btn-wrapper">
+          <button
+            id="btn-verify"
+            class="btn-primary"
+            disabled
+            aria-disabled="true"
+          >Verificar visita ❤️</button>
+
+          <!-- Easter egg #2 tooltip -->
+          <div id="tooltip-hint" class="tooltip" role="tooltip" aria-hidden="true">
+            Psiu... tenta &quot;lala linda&quot;. 🤫
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ LOADING ════ -->
+    <section id="section-loading" class="section" aria-label="Verificando visita" aria-live="polite" hidden>
+      <div class="card-glass card-loading">
+        <div class="loading-spinner" aria-hidden="true">🔍</div>
+        <h2 class="card-title" id="loading-msg">Identificando visitante... 👀</h2>
+
+        <div class="progress-dots" aria-hidden="true">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+
+        <div class="loading-bar" aria-hidden="true">
+          <div class="loading-bar-fill" id="loading-bar-fill"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ ESPECIAL — Lala Linda ════ -->
+    <section id="section-result-special" class="section section-result" aria-label="Visita especial aprovada" hidden>
+      <div class="card-glass card-special">
+        <div class="badge badge-approved">✅ Aprovado ❤️</div>
+
+        <span class="result-emoji heartbeat" aria-label="Coração">❤️</span>
+
+        <h2 class="result-title title-special">VISITA ESPECIAL DETECTADA ❤️</h2>
+        <p class="result-main">Lala linda chegou...</p>
+
+        <div class="result-highlight">
+          Gustavo feliz:&nbsp;😁🥰❤️
+        </div>
+
+        <p class="result-sub">Essa visita tem passe livre. ❤️</p>
+        <p class="result-sub result-italic">Para essa visita, a porta nunca fica trancada. 🖤</p>
+
+        <div class="result-signature" aria-hidden="true">— Gustavo 🖤</div>
+
+        <button class="btn-secondary btn-reset">← Verificar outra visita</button>
+      </div>
+    </section>
+
+    <!-- ════ RUIM ════ -->
+    <section id="section-result-bad" class="section section-result" aria-label="Visita não autorizada" hidden>
+      <div class="card-glass card-bad" id="card-bad">
+        <div class="badge badge-denied">🚫 Negado</div>
+
+        <span class="result-emoji" id="emoji-bad" aria-label="Bravo">😡</span>
+
+        <h2 class="result-title title-bad">🚨 VISITA NÃO AUTORIZADA 🚨</h2>
+        <p class="result-main">Gustavo ficou bravo! 😡</p>
+        <p class="result-sub result-accent-red">Acesso negado.</p>
+        <p class="result-sub">Pode voltar por onde veio. 🚪😂</p>
+
+        <button class="btn-secondary btn-reset">← Tentar novamente</button>
+      </div>
+    </section>
+
+    <!-- ════ DESCONHECIDO ════ -->
+    <section id="section-result-unknown" class="section section-result" aria-label="Visita desconhecida" hidden>
+      <div class="card-glass card-unknown">
+        <div class="badge badge-unknown">🤨 Desconhecido</div>
+
+        <span class="result-emoji" aria-label="Desconfiado">🤨</span>
+
+        <h2 class="result-title title-unknown">🤨 VISITA DESCONHECIDA</h2>
+        <p class="result-main">Gustavo não conhece essa visita...</p>
+        <p class="result-sub">Entrada permitida?</p>
+        <p class="result-sub result-bold">Não. 🚪😂</p>
+
+        <button class="btn-secondary btn-reset">← Tentar novamente</button>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

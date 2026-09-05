@@ -1,0 +1,714 @@
+/* ═══════════════════════════════════════════════════════════════
+   Sistema de Visitas do Gustavo — style.css
+   Dark Romance elegante · glassmorphism · mobile-first
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── 1. Design Tokens ──────────────────────────────────────────── */
+:root {
+  /* Base escura */
+  --color-black:      #0A0708;
+  --color-black-card: #120D0F;
+  --color-graphite:   #221A1D;
+
+  /* Tons românticos */
+  --color-wine:       #3B0F1A;
+  --color-bordeaux:   #5C1626;
+  --color-crimson-dk: #7A1F2B;
+  --color-crimson:    #C6273F;
+
+  /* Tons suaves (só como detalhe) */
+  --color-rose-burnt: #B4757E;
+  --color-rose-soft:  #E9C7CC;
+
+  /* Neutros claros */
+  --color-white:      #FFFFFF;
+  --color-white-warm: #FBF1F2;
+
+  /* Gradientes */
+  --grad-default: linear-gradient(135deg, #0A0708 0%, #3B0F1A 100%);
+  --grad-special: linear-gradient(135deg, #3B0F1A 0%, #8B1A30 50%, #C6273F 100%);
+  --grad-bad:     linear-gradient(135deg, #0A0708 0%, #7A1F2B 100%);
+  --grad-btn:     linear-gradient(135deg, #5C1626, #C6273F);
+
+  /* Tipografia */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'Poppins', system-ui, sans-serif;
+  --font-script:  'Dancing Script', cursive;
+
+  /* Espaçamento (sistema 8px) */
+  --sp-1: 8px;
+  --sp-2: 16px;
+  --sp-3: 24px;
+  --sp-4: 32px;
+  --sp-6: 48px;
+  --sp-8: 64px;
+
+  /* Raios */
+  --radius-sm:   16px;
+  --radius-lg:   28px;
+  --radius-pill: 999px;
+
+  /* Transições */
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ─── 2. Reset mínimo ───────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { height: 100%; scroll-behavior: smooth; }
+
+body {
+  min-height: 100%;
+  font-family: var(--font-body);
+  color: var(--color-white-warm);
+  background: var(--grad-default);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  transition: background 1s ease;
+}
+
+/* Estado de fundo especial e ruim via classe no body */
+body.bg-special { background: var(--grad-special); }
+body.bg-bad     { background: var(--grad-bad); }
+
+/* ─── 3. Partículas de fundo ────────────────────────────────────── */
+#particles-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(198, 39, 63, 0.3);
+  filter: blur(1px);
+  animation: particle-float linear infinite;
+}
+
+@keyframes particle-float {
+  0%   { transform: translateY(0) scale(1); opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 0.5; }
+  100% { transform: translateY(-90px) scale(0.5); opacity: 0; }
+}
+
+/* ─── 4. Halos de luz ───────────────────────────────────────────── */
+.halo {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(80px);
+}
+
+.halo-1 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(92,22,38,0.5) 0%, transparent 70%);
+  top: -100px; left: -100px;
+}
+
+.halo-2 {
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(59,15,26,0.6) 0%, transparent 70%);
+  bottom: -80px; right: -80px;
+}
+
+.halo-special {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(198,39,63,0.28) 0%, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  animation: halo-pulse 2.4s ease-in-out infinite;
+}
+.halo-special.active { display: block; }
+
+@keyframes halo-pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1);    opacity: 0.6; }
+  50%       { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+}
+
+/* ─── 5. Corações flutuantes (estado especial) ──────────────────── */
+#hearts-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+  display: none;
+}
+#hearts-layer.active { display: block; }
+
+.floating-heart {
+  position: absolute;
+  bottom: -60px;
+  animation: heart-rise linear infinite;
+  user-select: none;
+  line-height: 1;
+}
+
+@keyframes heart-rise {
+  0%   { transform: translateY(0) rotate(-10deg) scale(0.8); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.5; }
+  100% { transform: translateY(-110vh) rotate(10deg) scale(1.1); opacity: 0; }
+}
+
+/* ─── 6. Toast ──────────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  top: var(--sp-3);
+  left: 50%;
+  transform: translateX(-50%) translateY(-12px) scale(0.9);
+  z-index: 100;
+  background: rgba(18, 13, 15, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(198, 39, 63, 0.45);
+  border-radius: var(--radius-pill);
+  color: var(--color-white-warm);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px var(--sp-3);
+  white-space: nowrap;
+  box-shadow: 0 0 24px rgba(198,39,63,0.3), 0 8px 32px rgba(0,0,0,0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s var(--ease-spring),
+              transform 0.35s var(--ease-spring);
+}
+.toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* ─── 7. Layout principal ───────────────────────────────────────── */
+#app {
+  position: relative;
+  z-index: 2;
+  min-height: 100dvh;
+}
+
+/* ─── 8. Seções ─────────────────────────────────────────────────── */
+.section {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-3) var(--sp-3);
+}
+
+.section[hidden] { display: none !important; }
+
+/* Animação de entrada ao mostrar uma seção */
+.section.entering {
+  animation: section-enter 0.55s var(--ease-smooth) forwards;
+}
+
+@keyframes section-enter {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── 9. Hero ───────────────────────────────────────────────────── */
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0;
+  max-width: 560px;
+  width: 100%;
+}
+
+/* Botão da porta (easter egg #1) */
+.hero-door-btn {
+  background: none;
+  border: none;
+  font-size: 72px;
+  cursor: pointer;
+  line-height: 1;
+  padding: var(--sp-1);
+  border-radius: 50%;
+  transition: transform 0.2s ease, filter 0.2s ease;
+  animation: door-float 4s ease-in-out infinite;
+  margin-bottom: var(--sp-1);
+  outline: none;
+}
+.hero-door-btn:hover {
+  transform: scale(1.1) rotate(-3deg);
+  filter: drop-shadow(0 0 14px rgba(198,39,63,0.65));
+}
+.hero-door-btn:active { transform: scale(0.94); }
+.hero-door-btn:focus-visible {
+  outline: 2px solid var(--color-crimson);
+  outline-offset: 4px;
+}
+
+@keyframes door-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+.deco-hearts {
+  display: flex;
+  gap: var(--sp-1);
+  margin-bottom: var(--sp-3);
+  height: 28px;
+  align-items: center;
+}
+.deco-heart {
+  font-size: 18px;
+  display: inline-block;
+  animation: deco-float 3s ease-in-out infinite;
+  opacity: 0.55;
+}
+@keyframes deco-float {
+  0%, 100% { transform: translateY(0); opacity: 0.55; }
+  50%       { transform: translateY(-6px); opacity: 0.9; }
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 7vw, 58px);
+  font-weight: 700;
+  color: var(--color-white);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--sp-2);
+  text-shadow: 0 0 40px rgba(198,39,63,0.4);
+}
+
+.hero-subtitle {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(16px, 3.5vw, 22px);
+  color: var(--color-rose-soft);
+  margin-bottom: 12px;
+  opacity: 0.9;
+}
+
+.hero-tertiary {
+  font-size: clamp(13px, 2.5vw, 16px);
+  color: var(--color-rose-burnt);
+  margin-bottom: var(--sp-6);
+  letter-spacing: 0.02em;
+}
+
+/* ─── 10. Card glassmorphism ────────────────────────────────────── */
+.card-glass {
+  background: rgba(18, 13, 15, 0.55);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(180, 117, 126, 0.18);
+  border-radius: var(--radius-lg);
+  padding: clamp(28px, 6vw, 48px);
+  width: 100%;
+  max-width: 520px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    0 8px 32px rgba(0,0,0,0.5),
+    0 0 64px rgba(59,15,26,0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  text-align: center;
+  transition: box-shadow 0.4s ease;
+}
+.card-glass:hover {
+  box-shadow:
+    0 0 0 1px rgba(198,39,63,0.12),
+    0 8px 40px rgba(0,0,0,0.55),
+    0 0 80px rgba(59,15,26,0.5);
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 4vw, 28px);
+  font-weight: 600;
+  color: var(--color-white);
+  line-height: 1.25;
+}
+
+.card-subtitle {
+  font-size: 14px;
+  color: var(--color-rose-burnt);
+  line-height: 1.6;
+  max-width: 360px;
+}
+
+/* ─── 11. Input ─────────────────────────────────────────────────── */
+.input-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+}
+
+.text-input {
+  width: 100%;
+  background: rgba(34, 26, 29, 0.7);
+  border: 1px solid rgba(180, 117, 126, 0.22);
+  border-radius: var(--radius-sm);
+  color: var(--color-white-warm);
+  font-family: var(--font-body);
+  font-size: 15px;
+  padding: 14px 44px 14px 18px;
+  outline: none;
+  min-height: 52px;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.text-input::placeholder { color: rgba(180, 117, 126, 0.45); }
+.text-input:focus {
+  border-color: rgba(198, 39, 63, 0.6);
+  box-shadow: 0 0 0 3px rgba(198,39,63,0.12), 0 0 18px rgba(198,39,63,0.14);
+}
+
+.input-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+/* ─── 12. Botões ────────────────────────────────────────────────── */
+.btn-primary {
+  background: var(--grad-btn);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 14px 32px;
+  min-height: 52px;
+  min-width: 180px;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.25s ease, opacity 0.2s ease;
+  box-shadow: 0 4px 24px rgba(198,39,63,0.3), 0 0 0 1px rgba(255,255,255,0.05);
+}
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.13), transparent);
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(198,39,63,0.45), 0 0 0 1px rgba(255,255,255,0.1);
+}
+.btn-primary:hover:not(:disabled)::after { opacity: 1; }
+.btn-primary:active:not(:disabled)      { transform: translateY(0) scale(0.98); }
+.btn-primary:focus-visible {
+  outline: 2px solid var(--color-rose-soft);
+  outline-offset: 3px;
+}
+.btn-primary:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-rose-soft);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid rgba(180, 117, 126, 0.32);
+  border-radius: var(--radius-pill);
+  padding: 12px 28px;
+  min-height: 48px;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: border-color 0.2s ease, color 0.2s ease,
+              box-shadow 0.2s ease, transform 0.2s ease;
+  margin-top: var(--sp-1);
+}
+.btn-secondary:hover {
+  border-color: rgba(198, 39, 63, 0.5);
+  color: var(--color-white);
+  box-shadow: 0 0 16px rgba(198,39,63,0.15);
+  transform: translateY(-1px);
+}
+.btn-secondary:focus-visible {
+  outline: 2px solid var(--color-crimson);
+  outline-offset: 3px;
+}
+
+/* ─── 13. Tooltip (easter egg #2) ───────────────────────────────── */
+.btn-wrapper {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  background: rgba(18, 13, 15, 0.95);
+  border: 1px solid rgba(198,39,63,0.38);
+  border-radius: var(--radius-sm);
+  color: var(--color-rose-soft);
+  font-family: var(--font-body);
+  font-size: 13px;
+  padding: 8px 16px;
+  white-space: nowrap;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s var(--ease-spring), transform 0.3s var(--ease-spring);
+  z-index: 10;
+}
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: rgba(198,39,63,0.38);
+}
+.tooltip.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+/* ─── 14. Loading ───────────────────────────────────────────────── */
+.card-loading { gap: var(--sp-3); }
+
+.loading-spinner {
+  font-size: 40px;
+  line-height: 1;
+  animation: spin-float 1.4s ease-in-out infinite;
+}
+@keyframes spin-float {
+  0%, 100% { transform: scale(1)   rotate(-5deg); }
+  50%       { transform: scale(1.1) rotate(5deg); }
+}
+
+.progress-dots {
+  display: flex;
+  gap: var(--sp-1);
+  align-items: center;
+}
+.dot {
+  display: block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--color-crimson);
+  animation: dot-pulse 1.2s ease-in-out infinite;
+}
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes dot-pulse {
+  0%, 100% { transform: scale(0.7); opacity: 0.4; }
+  50%       { transform: scale(1.2); opacity: 1; }
+}
+
+.loading-bar {
+  width: 100%;
+  max-width: 280px;
+  height: 3px;
+  background: rgba(180,117,126,0.15);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.loading-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-bordeaux), var(--color-crimson));
+  border-radius: 3px;
+  width: 25%;
+  transition: width 0.75s var(--ease-smooth);
+  box-shadow: 0 0 8px rgba(198,39,63,0.5);
+}
+
+/* ─── 15. Badges ────────────────────────────────────────────────── */
+.badge {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+}
+.badge-approved {
+  background: rgba(198,39,63,0.16);
+  border: 1px solid rgba(198,39,63,0.38);
+  color: var(--color-rose-soft);
+}
+.badge-denied {
+  background: rgba(122,31,43,0.22);
+  border: 1px solid rgba(198,39,63,0.48);
+  color: #FF8A9A;
+}
+.badge-unknown {
+  background: rgba(34,26,29,0.6);
+  border: 1px solid rgba(180,117,126,0.22);
+  color: var(--color-rose-burnt);
+}
+
+/* ─── 16. Estados de resultado ──────────────────────────────────── */
+.result-emoji {
+  font-size: 56px;
+  line-height: 1;
+  display: block;
+}
+
+.result-title {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 4vw, 26px);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.result-main {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(15px, 3vw, 20px);
+  color: var(--color-rose-soft);
+  line-height: 1.4;
+}
+
+.result-highlight {
+  font-family: var(--font-display);
+  font-size: clamp(17px, 4vw, 26px);
+  font-weight: 600;
+  color: var(--color-white);
+  background: rgba(198,39,63,0.1);
+  border: 1px solid rgba(198,39,63,0.22);
+  border-radius: var(--radius-sm);
+  padding: 14px var(--sp-3);
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+}
+
+.result-sub       { font-size: 14px; color: var(--color-rose-burnt); line-height: 1.6; }
+.result-italic    { font-style: italic; }
+.result-bold      { font-weight: 600; }
+.result-accent-red { font-weight: 600; color: #FF8A9A; }
+
+.result-signature {
+  font-family: var(--font-script);
+  font-size: 20px;
+  color: rgba(233, 199, 204, 0.45);
+  letter-spacing: 0.05em;
+  margin-top: -4px;
+}
+
+/* ─── 17. Card especial ─────────────────────────────────────────── */
+.card-special {
+  border-color: rgba(198,39,63,0.38);
+  box-shadow:
+    0 0 0 1px rgba(198,39,63,0.1),
+    0 8px 40px rgba(0,0,0,0.6),
+    0 0 80px rgba(198,39,63,0.22),
+    0 0 120px rgba(59,15,26,0.35);
+  animation: card-glow-pulse 2.4s ease-in-out infinite;
+}
+.title-special { color: var(--color-rose-soft); }
+
+@keyframes card-glow-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 0 1px rgba(198,39,63,0.1),
+      0 8px 40px rgba(0,0,0,0.6),
+      0 0 64px rgba(198,39,63,0.18),
+      0 0 120px rgba(59,15,26,0.35);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(198,39,63,0.22),
+      0 8px 48px rgba(0,0,0,0.6),
+      0 0 100px rgba(198,39,63,0.32),
+      0 0 140px rgba(92,22,38,0.45);
+  }
+}
+
+/* Heartbeat no ❤️ do estado especial */
+.heartbeat {
+  display: inline-block;
+  transform-origin: center;
+  animation: heartbeat 1.4s ease-in-out infinite;
+}
+@keyframes heartbeat {
+  0%   { transform: scale(1); }
+  14%  { transform: scale(1.22); }
+  28%  { transform: scale(1); }
+  42%  { transform: scale(1.15); }
+  56%  { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+/* ─── 18. Card ruim ─────────────────────────────────────────────── */
+.card-bad {
+  border-color: rgba(198,39,63,0.48);
+  box-shadow:
+    0 0 0 1px rgba(198,39,63,0.14),
+    0 8px 40px rgba(0,0,0,0.6),
+    0 0 60px rgba(122,31,43,0.28);
+}
+.card-bad.shake {
+  animation: card-shake 0.55s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+.title-bad { color: #FF8A9A; }
+
+@keyframes card-shake {
+  0%, 100% { transform: translateX(0); }
+  14%       { transform: translateX(-9px) rotate(-0.5deg); }
+  28%       { transform: translateX(8px)  rotate( 0.5deg); }
+  43%       { transform: translateX(-6px); }
+  58%       { transform: translateX(5px); }
+  73%       { transform: translateX(-3px); }
+  88%       { transform: translateX(2px); }
+}
+
+/* ─── 19. Card desconhecido ─────────────────────────────────────── */
+.card-unknown { border-color: rgba(180,117,126,0.18); }
+.title-unknown { color: var(--color-white-warm); }
+
+/* ─── 20. Scrollbar discreta ────────────────────────────────────── */
+::-webkit-scrollbar         { width: 4px; }
+::-webkit-scrollbar-track   { background: transparent; }
+::-webkit-scrollbar-thumb   { background: rgba(180,117,126,0.28); border-radius: 2px; }
+
+/* ─── 21. Responsivo ────────────────────────────────────────────── */
+@media (min-width: 768px) {
+  .hero-door-btn  { font-size: 88px; }
+  .deco-heart     { font-size: 22px; }
+  .card-glass     { padding: 48px; }
+  .section        { padding: var(--sp-6) var(--sp-4); }
+  /* Partículas mais discretas em desktop: já são geradas pelo JS com opacidades variadas */
+}
+
+@media (max-width: 380px) {
+  .card-glass       { padding: var(--sp-3) 18px; border-radius: 20px; }
+  .btn-primary      { padding: 13px var(--sp-3); font-size: 14px; }
+  .result-highlight { padding: 12px var(--sp-2); font-size: 15px; }
+  /* Reduz partículas via JS quando viewport pequeno */
+}
