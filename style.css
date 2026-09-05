@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════
    Sistema de Visitas do Gustavo — style.css
-   Dark Romance elegante · glassmorphism · mobile-first
+  Romance sombrio elegante · efeito de vidro · prioridade para dispositivos móveis
    ═══════════════════════════════════════════════════════════════ */
 
-/* ─── 1. Design Tokens ──────────────────────────────────────────── */
+/* ─── 1. Variáveis de design ────────────────────────────────────── */
 :root {
   /* Base escura */
   --color-black:      #0A0708;
@@ -162,7 +162,7 @@ body.bg-bad     { background: var(--grad-bad); }
   100% { transform: translateY(-110vh) rotate(10deg) scale(1.1); opacity: 0; }
 }
 
-/* ─── 6. Toast ──────────────────────────────────────────────────── */
+/* ─── 6. Notificação ────────────────────────────────────────────── */
 .toast {
   position: fixed;
   top: var(--sp-3);
@@ -220,7 +220,7 @@ body.bg-bad     { background: var(--grad-bad); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ─── 9. Hero ───────────────────────────────────────────────────── */
+/* ─── 9. Seção principal ────────────────────────────────────────── */
 .hero-content {
   display: flex;
   flex-direction: column;
@@ -231,7 +231,7 @@ body.bg-bad     { background: var(--grad-bad); }
   width: 100%;
 }
 
-/* Botão da porta (easter egg #1) */
+/* Botão da porta (segredo #1) */
 .hero-door-btn {
   background: none;
   border: none;
@@ -305,7 +305,7 @@ body.bg-bad     { background: var(--grad-bad); }
   letter-spacing: 0.02em;
 }
 
-/* ─── 10. Card glassmorphism ────────────────────────────────────── */
+/* ─── 10. Cartão com efeito de vidro ────────────────────────────── */
 .card-glass {
   background: rgba(18, 13, 15, 0.55);
   backdrop-filter: blur(20px) saturate(1.4);
@@ -348,7 +348,7 @@ body.bg-bad     { background: var(--grad-bad); }
   max-width: 360px;
 }
 
-/* ─── 11. Input ─────────────────────────────────────────────────── */
+/* ─── 11. Campo de texto ────────────────────────────────────────── */
 .input-wrapper {
   position: relative;
   width: 100%;
@@ -454,7 +454,7 @@ body.bg-bad     { background: var(--grad-bad); }
   outline-offset: 3px;
 }
 
-/* ─── 13. Tooltip (easter egg #2) ───────────────────────────────── */
+/* ─── 13. Dica (segredo #2) ──────────────────────────────────────── */
 .btn-wrapper {
   position: relative;
   display: inline-flex;
@@ -496,7 +496,7 @@ body.bg-bad     { background: var(--grad-bad); }
   pointer-events: auto;
 }
 
-/* ─── 14. Loading ───────────────────────────────────────────────── */
+/* ─── 14. Carregamento ──────────────────────────────────────────── */
 .card-loading { gap: var(--sp-3); }
 
 .loading-spinner {
@@ -545,7 +545,7 @@ body.bg-bad     { background: var(--grad-bad); }
   box-shadow: 0 0 8px rgba(198,39,63,0.5);
 }
 
-/* ─── 15. Badges ────────────────────────────────────────────────── */
+/* ─── 15. Etiquetas ─────────────────────────────────────────────── */
 .badge {
   font-size: 12px;
   font-weight: 600;
@@ -571,7 +571,7 @@ body.bg-bad     { background: var(--grad-bad); }
   color: var(--color-rose-burnt);
 }
 
-/* ─── 16. Estados de resultado ──────────────────────────────────── */
+/* ─── 16. Estados do resultado ──────────────────────────────────── */
 .result-emoji {
   font-size: 56px;
   line-height: 1;
@@ -621,7 +621,7 @@ body.bg-bad     { background: var(--grad-bad); }
   margin-top: -4px;
 }
 
-/* ─── 17. Card especial ─────────────────────────────────────────── */
+/* ─── 17. Cartão especial ────────────────────────────────────────── */
 .card-special {
   border-color: rgba(198,39,63,0.38);
   box-shadow:
@@ -650,7 +650,7 @@ body.bg-bad     { background: var(--grad-bad); }
   }
 }
 
-/* Heartbeat no ❤️ do estado especial */
+/* Batimento no ❤️ do estado especial */
 .heartbeat {
   display: inline-block;
   transform-origin: center;
@@ -665,7 +665,7 @@ body.bg-bad     { background: var(--grad-bad); }
   100% { transform: scale(1); }
 }
 
-/* ─── 18. Card ruim ─────────────────────────────────────────────── */
+/* ─── 18. Cartão ruim ────────────────────────────────────────────── */
 .card-bad {
   border-color: rgba(198,39,63,0.48);
   box-shadow:
@@ -688,11 +688,11 @@ body.bg-bad     { background: var(--grad-bad); }
   88%       { transform: translateX(2px); }
 }
 
-/* ─── 19. Card desconhecido ─────────────────────────────────────── */
+/* ─── 19. Cartão desconhecido ───────────────────────────────────── */
 .card-unknown { border-color: rgba(180,117,126,0.18); }
 .title-unknown { color: var(--color-white-warm); }
 
-/* ─── 20. Scrollbar discreta ────────────────────────────────────── */
+/* ─── 20. Barra de rolagem discreta ─────────────────────────────── */
 ::-webkit-scrollbar         { width: 4px; }
 ::-webkit-scrollbar-track   { background: transparent; }
 ::-webkit-scrollbar-thumb   { background: rgba(180,117,126,0.28); border-radius: 2px; }
@@ -703,12 +703,12 @@ body.bg-bad     { background: var(--grad-bad); }
   .deco-heart     { font-size: 22px; }
   .card-glass     { padding: 48px; }
   .section        { padding: var(--sp-6) var(--sp-4); }
-  /* Partículas mais discretas em desktop: já são geradas pelo JS com opacidades variadas */
+  /* Partículas mais discretas em telas grandes: já são geradas pelo JS com opacidades variadas */
 }
 
 @media (max-width: 380px) {
   .card-glass       { padding: var(--sp-3) 18px; border-radius: 20px; }
   .btn-primary      { padding: 13px var(--sp-3); font-size: 14px; }
   .result-highlight { padding: 12px var(--sp-2); font-size: 15px; }
-  /* Reduz partículas via JS quando viewport pequeno */
+  /* Reduz partículas via JS quando a área de visualização é pequena */
 }

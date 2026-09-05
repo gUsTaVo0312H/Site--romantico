@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
    Sistema de Visitas do Gustavo — script.js
-   Lógica de estados · animações · easter eggs
+  Lógica de estados · animações · segredos
    ═══════════════════════════════════════════════════════════════ */
 
 'use strict';
@@ -63,7 +63,7 @@ function showSection(id) {
     const el = sections[sectionId];
     if (sectionId === id) {
       el.hidden = false;
-      // Força reflow antes de adicionar classe de animação
+      // Força o recálculo do layout antes de adicionar a classe de animação
       void el.offsetWidth;
       el.classList.add('entering');
       el.addEventListener('animationend', () => el.classList.remove('entering'), { once: true });
@@ -75,8 +75,8 @@ function showSection(id) {
 }
 
 /**
- * Classifica o input do usuário em um dos três resultados.
- * @param {string} raw - Texto bruto do input
+ * Classifica o campo de texto do usuário em um dos três resultados.
+ * @param {string} raw - Texto bruto do campo de texto
  * @returns {'special'|'bad'|'unknown'}
  */
 function classify(raw) {
@@ -86,7 +86,7 @@ function classify(raw) {
   return 'unknown';
 }
 
-/* ─── Background ─────────────────────────────────────────────────── */
+/* ─── Fundo ──────────────────────────────────────────────────────── */
 
 /**
  * Alterna a classe de fundo no body.
@@ -146,12 +146,12 @@ function clearFloatingHearts() {
   heartsLayer.innerHTML = '';
 }
 
-/* ─── Toast ──────────────────────────────────────────────────────── */
+/* ─── Notificação ────────────────────────────────────────────────── */
 
 let toastTimer = null;
 
 /**
- * Exibe o toast temporariamente.
+ * Exibe a notificação temporariamente.
  * @param {string} [message] - Texto opcional (usa o HTML atual se omitido)
  * @param {number} [duration=3500] - Duração em ms
  */
@@ -167,7 +167,7 @@ function showToast(message, duration = 3500) {
   }, duration);
 }
 
-/* ─── Tooltip ────────────────────────────────────────────────────── */
+/* ─── Dica ───────────────────────────────────────────────────────── */
 
 function showTooltip() {
   tooltipHint.classList.add('visible');
@@ -178,7 +178,7 @@ function showTooltip() {
   }, 3500);
 }
 
-/* ─── Sequência de Loading ───────────────────────────────────────── */
+/* ─── Sequência de carregamento ──────────────────────────────────── */
 
 let loadingTimers = [];
 
@@ -227,10 +227,10 @@ function showResult(result) {
       setBackground('bad');
       clearFloatingHearts();
       showSection('section-result-bad');
-      // Re-aplica shake (o card pode ter sido exibido antes)
+      // Reaplica o tremor (o cartão pode ter sido exibido antes)
       if (cardBad) {
         cardBad.classList.remove('shake');
-        void cardBad.offsetWidth; // reflow
+        void cardBad.offsetWidth; // força o recálculo do layout
         cardBad.classList.add('shake');
       }
       break;
@@ -251,11 +251,11 @@ function resetToVerify() {
   btnVerify.disabled = true;
   btnVerify.setAttribute('aria-disabled', 'true');
   showSection('section-verification');
-  // Foco no input para UX
+  // Foco no campo de texto para melhorar a experiência
   setTimeout(() => inputName.focus(), 100);
 }
 
-/* ─── Easter Egg #1 — Clicar na 🚪 várias vezes ─────────────────── */
+/* ─── Segredo #1 — Clicar na 🚪 várias vezes ────────────────────── */
 
 let doorClickCount = 0;
 let doorClickResetTimer = null;
@@ -272,7 +272,7 @@ btnDoor.addEventListener('click', () => {
   }
 });
 
-/* ─── Easter Egg #2 — Segurar o botão Verificar ─────────────────── */
+/* ─── Segredo #2 — Segurar o botão Verificar ────────────────────── */
 
 let holdTimer = null;
 
@@ -290,14 +290,14 @@ btnVerify.addEventListener('touchstart', onBtnDown, { passive: true });
 btnVerify.addEventListener('touchend',   onBtnUp);
 btnVerify.addEventListener('touchcancel',onBtnUp);
 
-/* ─── Interações da seção Hero ───────────────────────────────────── */
+/* ─── Interações da seção principal ──────────────────────────────── */
 
 btnDiscover.addEventListener('click', () => {
   showSection('section-verification');
   setTimeout(() => inputName.focus(), 150);
 });
 
-/* ─── Input — habilitar/desabilitar botão ────────────────────────── */
+/* ─── Campo de texto — habilitar/desabilitar botão ──────────────── */
 
 inputName.addEventListener('input', () => {
   const hasValue = inputName.value.trim().length > 0;
@@ -319,11 +319,11 @@ btnVerify.addEventListener('click', () => {
   }
 });
 
-/* ─── Botões de reset (todos os ".btn-reset") ────────────────────── */
+/* ─── Botões de redefinição (todos os ".btn-reset") ─────────────── */
 
 btnResets.forEach(btn => btn.addEventListener('click', resetToVerify));
 
-/* ─── Init ───────────────────────────────────────────────────────── */
+/* ─── Inicialização ──────────────────────────────────────────────── */
 
 // Garante estado inicial limpo
 showSection('section-hero');
