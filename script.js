@@ -304,7 +304,6 @@ btnDoor.addEventListener('click', () => {
   if (doorClickCount >= 3) {
     doorClickCount = 0;
     showToast('Tente segurar o botão de verificar amor👀');
-    showToast('Tente segurar o botão de verificar amor👀');
   }
 });
 
