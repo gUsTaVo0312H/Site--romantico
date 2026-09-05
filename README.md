@@ -5,9 +5,9 @@
 </p>
 
 <p align="center">
-  <a href="8-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="8-projeto">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="g-layout">Layout</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#projeto">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#layout">Layout</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="https://www.instagram.com/ghsantos_i/">Contato</a>
 </p>
 
@@ -27,6 +27,10 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - Figma
 
 <br>
+
+## 🎨 Layout
+
+A interface combina uma estética dark com elementos românticos e interações divertidas.
 
 ## 💻 Projeto
 
