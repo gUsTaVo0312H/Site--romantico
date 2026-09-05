@@ -454,6 +454,147 @@ body.bg-bad     { background: var(--grad-bad); }
   outline-offset: 3px;
 }
 
+.btn-surprise {
+  background: rgba(233, 199, 204, 0.12);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid rgba(233, 199, 204, 0.42);
+  border-radius: var(--radius-pill);
+  padding: 12px 24px;
+  min-height: 48px;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease,
+              box-shadow 0.25s ease, transform 0.2s ease;
+}
+.btn-surprise:hover {
+  background: rgba(198, 39, 63, 0.22);
+  border-color: rgba(233, 199, 204, 0.75);
+  box-shadow: 0 0 24px rgba(198,39,63,0.25);
+  transform: translateY(-2px);
+}
+.btn-surprise:focus-visible,
+.surprise-close:focus-visible {
+  outline: 2px solid var(--color-rose-soft);
+  outline-offset: 3px;
+}
+
+.modal-open { overflow: hidden; }
+
+.surprise-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: var(--sp-3);
+  background: rgba(10, 7, 8, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  animation: modal-fade-in 0.3s ease both;
+}
+.surprise-modal[hidden] { display: none; }
+
+.surprise-card {
+  position: relative;
+  width: min(100%, 430px);
+  max-height: calc(100dvh - 48px);
+  overflow: auto;
+  padding: 28px 24px 24px;
+  text-align: center;
+  background: linear-gradient(145deg, #fff7f8, #f4dce1);
+  border: 8px solid #fff;
+  border-radius: 24px;
+  box-shadow: 0 18px 70px rgba(0,0,0,0.6), 0 0 0 2px rgba(198,39,63,0.35);
+  animation: surprise-pop 0.45s var(--ease-spring) both;
+}
+.surprise-card::before,
+.surprise-card::after {
+  content: '♡';
+  position: absolute;
+  color: rgba(198,39,63,0.45);
+  font-size: 26px;
+}
+.surprise-card::before { top: 10px; left: 16px; }
+.surprise-card::after { right: 16px; bottom: 10px; }
+.surprise-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  color: var(--color-crimson-dk);
+  background: rgba(198,39,63,0.1);
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+.surprise-sparkles {
+  color: var(--color-crimson);
+  font-size: 18px;
+  letter-spacing: 0.5em;
+}
+.surprise-title {
+  margin: 8px 0 18px;
+  color: var(--color-crimson-dk);
+  font-family: var(--font-display);
+  font-size: clamp(22px, 5vw, 30px);
+  line-height: 1.2;
+}
+.photo-frame {
+  position: relative;
+  width: min(100%, 250px);
+  margin: 0 auto;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid rgba(198,39,63,0.3);
+  box-shadow: 0 8px 20px rgba(92,22,38,0.22);
+  transform: rotate(-2deg);
+}
+.photo-frame::before,
+.photo-frame::after {
+  content: '♥';
+  position: absolute;
+  z-index: 1;
+  color: var(--color-crimson);
+  font-size: 22px;
+}
+.photo-frame::before { top: -15px; left: -12px; transform: rotate(-14deg); }
+.photo-frame::after { right: -12px; bottom: -15px; transform: rotate(14deg); }
+.photo-frame-inner {
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  border: 3px solid #f0b8c1;
+  background: #f8e7ea;
+}
+.photo-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+.surprise-message {
+  margin-top: 20px;
+  color: var(--color-crimson-dk);
+  font-family: var(--font-script);
+  font-size: 25px;
+  line-height: 1.2;
+}
+
+@keyframes modal-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes surprise-pop {
+  from { opacity: 0; transform: scale(0.86) rotate(2deg); }
+  to { opacity: 1; transform: scale(1) rotate(0); }
+}
+
 /* ─── 13. Dica (segredo #2) ──────────────────────────────────────── */
 .btn-wrapper {
   position: relative;

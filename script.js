@@ -40,6 +40,9 @@ const heartsLayer     = document.getElementById('hearts-layer');
 const particlesLayer  = document.getElementById('particles-layer');
 const cardBad         = document.getElementById('card-bad');
 const btnResets       = document.querySelectorAll('.btn-reset');
+const btnSurprise     = document.getElementById('btn-surprise');
+const surpriseModal   = document.getElementById('surprise-modal');
+const btnCloseSurprise = document.getElementById('btn-close-surprise');
 
 /* ─── Estado da máquina ──────────────────────────────────────────── */
 
@@ -265,6 +268,7 @@ function showResult(result) {
 
 function resetToVerify() {
   isLoading = false;
+  closeSurprise();
   setBackground('default');
   clearFloatingHearts();
   inputName.value = '';
@@ -273,6 +277,17 @@ function resetToVerify() {
   showSection('section-verification');
   // Foco no campo de texto para melhorar a experiência
   setTimeout(() => inputName.focus(), 100);
+}
+
+function openSurprise() {
+  surpriseModal.hidden = false;
+  document.body.classList.add('modal-open');
+  btnCloseSurprise.focus();
+}
+
+function closeSurprise() {
+  surpriseModal.hidden = true;
+  document.body.classList.remove('modal-open');
 }
 
 /* ─── Segredo #1 — Clicar na 🚪 várias vezes ────────────────────── */
@@ -356,6 +371,15 @@ btnVerify.addEventListener('click', () => {
 /* ─── Botões de redefinição (todos os ".btn-reset") ─────────────── */
 
 btnResets.forEach(btn => btn.addEventListener('click', resetToVerify));
+
+btnSurprise.addEventListener('click', openSurprise);
+btnCloseSurprise.addEventListener('click', closeSurprise);
+surpriseModal.addEventListener('click', (event) => {
+  if (event.target === surpriseModal) closeSurprise();
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && !surpriseModal.hidden) closeSurprise();
+});
 
 /* ─── Inicialização ──────────────────────────────────────────────── */
 
